@@ -1,10 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-/**
- * App-level JWT (Challenge 1)
- * Stored in HTTPOnly cookie named "token"
- * Used to protect POST/DELETE mutations alongside Better Auth session
- */
+
 const secret = () =>
   process.env.JWT_SECRET || process.env.BETTER_AUTH_SECRET || 'dev_fallback_secret_change_me';
 
