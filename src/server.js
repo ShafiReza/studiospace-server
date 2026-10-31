@@ -20,18 +20,23 @@ const app = express();
 //     credentials: true,
 //   })
 // );
+
 const allowedOrigins = [
   'https://studiospace-client-ten.vercel.app',
+  'https://studiospace-client-git-main-shafi-reza.vercel.app',
   'http://localhost:3000',
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin.replace(/\/$/, ''))) {
+      const normalizedOrigin = origin?.replace(/\/+$/, '');
+
+      if (!origin || allowedOrigins.includes(normalizedOrigin)) {
         callback(null, true);
       } else {
-        callback(new Error(`CORS blocked for origin: ${origin}`));
+        console.error('Blocked by CORS:', origin);
+        callback(new Error(`CORS blocked: ${origin}`));
       }
     },
     credentials: true,
@@ -39,6 +44,7 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
 app.all(/^\/api\/auth(\/.*)?$/, toNodeHandler(auth));
 
 app.use(express.json({ limit: '10mb' }));
