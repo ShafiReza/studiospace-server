@@ -14,13 +14,31 @@ connectDB();
 
 const app = express();
 
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL || 'http://localhost:3000',
+//     credentials: true,
+//   })
+// );
+const allowedOrigins = [
+  'https://studiospace-client-ten.vercel.app',
+  'http://localhost:3000',
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin.replace(/\/$/, ''))) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+      }
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
-
 app.all(/^\/api\/auth(\/.*)?$/, toNodeHandler(auth));
 
 app.use(express.json({ limit: '10mb' }));
