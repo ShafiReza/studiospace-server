@@ -21,8 +21,6 @@ app.use(
   })
 );
 
-// Better Auth MUST be before express.json()
-// Match all paths under /api/auth (including nested: sign-in/social, callback/google, etc.)
 app.all(/^\/api\/auth(\/.*)?$/, toNodeHandler(auth));
 
 app.use(express.json({ limit: '10mb' }));
