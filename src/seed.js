@@ -2,13 +2,7 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import Studio from './models/Studio.js';
 
-/**
- * Seed sample studios.
- * Host email is set to host@studiospace.com — register that account
- * via Better Auth (or any account) and update hostEmail if needed.
- * For examiners: register host@studiospace.com / Password1 then run seed,
- * OR just use any registered account to add new studios.
- */
+
 const studiosData = [
   {
     title: 'Lumina Photo Cyc Studio',
