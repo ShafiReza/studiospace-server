@@ -10,13 +10,7 @@ const client = new MongoClient(mongoUri);
 await client.connect();
 const db = client.db();
 
-/**
- * Better Auth + JWT
- * - Email/password via Better Auth
- * - MongoDB adapter
- * - JWT plugin + cookieCache strategy "jwt" (JWT session cache in HTTPOnly cookie)
- * - Additional app JWT (jsonwebtoken) also set in HTTPOnly cookie "token" for Challenge 1
- */
+
 export const auth = betterAuth({
   database: mongodbAdapter(db, { client }),
   secret: process.env.BETTER_AUTH_SECRET,
