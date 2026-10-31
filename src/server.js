@@ -21,29 +21,29 @@ const app = express();
 //   })
 // );
 
+
 const allowedOrigins = [
   'https://studiospace-client-ten.vercel.app',
   'https://studiospace-client-git-main-shafi-reza.vercel.app',
   'http://localhost:3000',
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      const normalizedOrigin = origin?.replace(/\/+$/, '');
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin.replace(/\/+$/, ''))) {
+      return callback(null, true);
+    }
 
-      if (!origin || allowedOrigins.includes(normalizedOrigin)) {
-        callback(null, true);
-      } else {
-        console.error('Blocked by CORS:', origin);
-        callback(new Error(`CORS blocked: ${origin}`));
-      }
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
+    console.error('CORS rejected origin:', origin);
+    return callback(new Error(`CORS blocked: ${origin}`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+
 
 app.all(/^\/api\/auth(\/.*)?$/, toNodeHandler(auth));
 
