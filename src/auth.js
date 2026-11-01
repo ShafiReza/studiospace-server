@@ -43,13 +43,15 @@ export const auth = betterAuth({
     minPasswordLength: 6,
   },
 
-  account: {
-    storeStateStrategy: "database",
-    accountLinking: {
-      enabled: true,
-      trustedProviders: ["google"], // auto-link Google to existing email user
-    },
+ account: {
+  storeStateStrategy: "database",
+  accountLinking: {
+    enabled: true,
+    trustedProviders: ["google"],
+    allowDifferentEmails: true, // important
   },
+  updateAccountOnSignIn: true,
+},
   socialProviders: {
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? {
