@@ -45,8 +45,11 @@ export const auth = betterAuth({
 
   account: {
     storeStateStrategy: "database",
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google"], // auto-link Google to existing email user
+    },
   },
-
   socialProviders: {
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? {
